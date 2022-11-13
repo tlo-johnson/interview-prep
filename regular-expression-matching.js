@@ -1,126 +1,74 @@
 // https://leetcode.com/problems/regular-expression-matching/
 
 const isMatch = (str, pattern) => {
-  let i = j = 0;
+  let i, j;
 
-  while (i < str.length && j < pattern.length) {
-    console.log(str, i, pattern, j);
+  for (i = 0, j = 0; i < str.length && j < pattern.length;) {
+    const currMatch = pattern[j];
+    const modifier = pattern[j + 1];
 
-    if (str[i] === pattern[j]) {
+    if (modifier === '*')
+      return processZero(str, pattern, i, j) || processOneOrMore(str, pattern, i, j);
+
+    if (currMatch === '.' || str[i] === currMatch) {
       i++;
       j++;
       continue;
     }
 
-    if (pattern[j] === '.') {
-      i++;
-      j++;
-      continue;
-    }
+    return false;
+  }
 
-    if (pattern[j + 1] === '*') {
-      return isMatch(str.slice(i), pattern.slice(j + 2)) ||
-        isMatch(str.slice(i + 1), pattern.slice(j));
-    }
+  if (j !== pattern.length)
+    for (j; j < pattern.length; j += 2)
+      if (pattern[j + 1] !== '*') return false
 
-    if (str[i] === str[i - 1]) {
-      i++;
-      j++;
-      continue;
-    }
+  return i === str.length;
+}
 
-    // pattern is '.*'
-    j = nextValidIndex(pattern, j - 1);
-    if (j === null)
+const processZero = (str, pattern, i, j) => isMatch(str.slice(i), pattern.slice(j + 2));
+
+const processOneOrMore = (str, pattern, i, j) => {
+  const currMatch = pattern[j];
+  if (currMatch === '.')
+    return processAnyOneOrMore(str, pattern, i, j);
+
+  if (str[i] !== currMatch) return false;
+
+  while (str[i++] === currMatch)
+    if (isMatch(str.slice(i), pattern.slice(j + 2)))
       return true;
 
-    const branches = [];
-    while (i < str.length) {
-      if (str[i] === pattern[j])
-        branches.push(i);
-      i++;
-    }
-
-    return branches.some(x => isMatch(str.slice(x), pattern.slice(j)));
-  }
-
-  return nextValidIndex(pattern, j) === null && i === str.length;
+  return false;
 }
 
-const nextValidIndex = (pattern, index) => {
-  while (index < pattern.length - 1) {
-    if (pattern[index] !== '.' || pattern[index + 1] !== '*')
-      break;
+const processAnyOneOrMore = (str, pattern, i, j) => {
+  const remainingPattern = pattern.slice(j + 2);
+  if (!remainingPattern) return true;
 
-    index += 2;
-  }
+  while (i++ < str.length)
+    if (isMatch(str.slice(i), remainingPattern)) return true;
 
-  return (index === pattern.length) ? null : index;
+  return false;
 }
 
-/*
 str = "aa", pattern = "a";
-console.log(isMatch(str, pattern));
+console.assert(isMatch(str, pattern) === false);
 
 str = "aa", pattern = "a*"
-console.log(isMatch(str, pattern));
+console.assert(isMatch(str, pattern));
 
 str = "ab", pattern = ".*"
-console.log(isMatch(str, pattern));
+console.assert(isMatch(str, pattern));
 
-str = "brailez", pattern="b.*.*e."
-console.log(isMatch(str, pattern));
-*/
+str = "braile", pattern="b.*.*e"
+console.assert(isMatch(str, pattern));
 
 str = "aaa", pattern = "ab*a*c*a"
-console.log(isMatch(str, pattern));
+console.assert(isMatch(str, pattern));
 
-/*
- * note: there are bugs in the pseudocode below though it was the basis for writing the code
- *
- * while str && pattern
- *  if str[i] === pattern[j],
- *    i++
- *    j++
- *    continue
- *  else
- *    if pattern[j] === '.'
- *      i++, j++, continue
- *    else
- *      if pattern[j + 1] === '*'
- *        j += 2
- *        continue
- *      return false
- *
- *    if pattern[j] === '*'
- *      if pattern[j - 1] === '.'
- *        j = findNextValidIndex pattern (j - 1)
- *        if j === null
- *          return true
- *        while i < str.length
- *          if str[i] !== pattern[j]
- *            i++
- *            continue
- *          if recurse str.slice(i) pattern.slice(j + 1)
- *            return true
- *          i++
- *        return false
- *
- *  if findNextValidIndex pattern j
- *    return false
- *
- *  if i !== str.length
- *    return false
- *
- *  return true
- *
- *  findNextValidIndex: pattern index
- *    while index < pattern.length - 1
- *      if (pattern[index] === '.' || pattern[index + 1] === '*')
- *        index += 2
- *
- *    if index === pattern.length
- *      return null
- *
- *    return index
- */
+str = "a", pattern = "ab*"
+console.assert(isMatch(str, pattern));
+
+str = "abcaaaaaaabaabcabac", pattern = ".*ab.a.*a*a*.*b*b*";
+console.assert(isMatch(str, pattern));
