@@ -7,6 +7,8 @@ export const linkedList = arr => {
   return nodes.next;
 }
 
+export const equals = (thisList, thatList) => thisList.equals(thatList);
+
 const toLinkedList = (accumulator, current) => {
   const head = accumulator;
   while (accumulator.next) accumulator = accumulator.next;
@@ -15,7 +17,7 @@ const toLinkedList = (accumulator, current) => {
   return head;
 };
 
-class ListNode {
+export class ListNode {
   constructor (val, next) {
     this.val = (val === undefined ? 0 : val)
     this.next = (next === undefined ? null : next)
