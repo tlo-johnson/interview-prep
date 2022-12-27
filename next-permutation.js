@@ -15,62 +15,28 @@ The replacement must be in place and use only constant extra memory.
 import { strictEquals } from './utils/array.js';
 
 const nextPermutation = (nums) => {
-  const index = lastNonEqualIndex(nums);
-
-  if (allElementsAreSame(index)) {
-    return nums;
-  }
-
-  if (endsIncreasing(nums, index)) {
-    swap(nums, index);
-    return nums;
-  }
-
-  const decreasingIndex = startDecreasingIndex(nums, index);
-  if (decreasingIndex === 0) {
+  const index = firstNonDecreasingElement(nums);
+  if (index === -1) {
     reverse(nums);
     return nums;
   }
 
-  findNextPermutation(nums, decreasingIndex);
+  const swapIndex = findSwapIndex(nums, index);
+  swap(nums, index, swapIndex);
+  reverse(nums, index + 1);
   return nums;
 }
 
-const lastNonEqualIndex = (nums) => {
+const firstNonDecreasingElement = (nums) => {
+  if (nums.length <= 1) return -1;
+
   let index = nums.length - 1;
-  while (index > 0) {
-    if (nums[index] !== nums[index - 1]) {
-      break;
-    }
+  while (nums[index] <= nums[index - 1]) {
     index--;
+    if (index === 0) break;
   }
 
-  return index;
-}
-
-const allElementsAreSame = (index) => {
-  return index === 0;
-}
-
-const endsIncreasing = (nums, index) => {
-  return nums[index] > nums[index - 1];
-}
-
-const swap = (nums, index) => {
-  const temp = nums[index];
-  nums[index] = nums[index - 1];
-  nums[index - 1] = temp;
-}
-
-const startDecreasingIndex = (nums, index) => {
-  while (index > 0) {
-    if (nums[index] > nums[index -1]) {
-      break;
-    }
-    index--;
-  }
-
-  return index;
+  return index ? index - 1 : -1;
 }
 
 const reverse = (nums, startIndex = 0) => {
@@ -84,53 +50,48 @@ const reverse = (nums, startIndex = 0) => {
   }
 }
 
-const findNextPermutation = (nums, index) => {
-  const pivot = nums[index - 1];
-
-  let i = nums.length - 1;
-  while (nums[i] <= pivot) {
-    i--;
-  };
-
-  nums[index - 1] = nums[i];
-  nums[i] = pivot;
-  reverse(nums, index);
+const findSwapIndex = (nums, index) => {
+  const num = nums[index];
+  while (nums[index + 1] > num) {
+    index++;
+  }
+  return index;
 }
 
-// when ending sequence is ascending, swap last two elements
-// when ending sequence is descending, let x be the last element before descending sequence. 
-//  find smallest element (y) in descending sequence that's greater than x
-//  insert y before x
-//  sort all elements after y in ascending order
+const swap = (nums, index1, index2) => {
+  const temp = nums[index1];
+  nums[index1] = nums[index2];
+  nums[index2] = temp;
+}
 
 let nums, expected, actual;
 
-nums = [1, 2, 3, 4]; // last sequence ascending. swap last two numbers
+nums = [1, 2, 3, 4];
 expected = [1, 2, 4, 3];
 actual = nextPermutation(nums);
 console.assert(strictEquals(expected, actual), '%o', { nums: [1, 2, 3, 4], expected, actual });
 
-nums = [1, 2, 4, 3]; // ascending & descending sequences. insert least element from descending sequence that's greater than element previous to descesding sequence before said element
+nums = [1, 2, 4, 3];
 expected = [1, 3, 2, 4];
 actual = nextPermutation(nums);
 console.assert(strictEquals(expected, actual), '%o', { nums: [1, 2, 4, 3], expected, actual });
 
-nums = [1, 3, 2, 4]; // last sequence ascending. swap last two numbers
+nums = [1, 3, 2, 4];
 expected = [1, 3, 4, 2];
 actual = nextPermutation(nums);
 console.assert(strictEquals(expected, actual), '%o', { nums: [1, 3, 2, 4], expected, actual });
 
-nums = [1, 3, 4, 2]; // ascending & descending sequences. insert least element from descending sequence that's greater than element previous to descesding sequence before said element
+nums = [1, 3, 4, 2];
 expected = [1, 4, 2, 3];
 actual = nextPermutation(nums);
 console.assert(strictEquals(expected, actual), '%o', { nums: [1, 3, 4, 2], expected, actual });
 
-nums = [1, 4, 2, 3]; // last subsequence ascending. swap
+nums = [1, 4, 2, 3];
 expected = [1, 4, 3, 2];
 actual = nextPermutation(nums);
 console.assert(strictEquals(expected, actual), '%o', { nums: [1, 4, 2, 3], expected, actual });
 
-nums = [1, 4, 3, 2]; // last subsequence descending. let x be element before last descending subsequence. from descending subsequence, take lowest number greater than x. insert before x. sort from x to end of array in non-decreasing order
+nums = [1, 4, 3, 2];
 expected = [2, 1, 3, 4];
 actual = nextPermutation(nums);
 console.assert(strictEquals(expected, actual), '%o', { nums: [1, 4, 3, 2], expected, actual });
@@ -140,7 +101,7 @@ expected = [2, 1, 4, 3];
 actual = nextPermutation(nums);
 console.assert(strictEquals(expected, actual), '%o', { nums: [2, 1, 3, 4], expected, actual });
 
-nums = [4, 3, 2, 1]; // all descending. reverse array (i.e. swap all elements in the descending part of array)
+nums = [4, 3, 2, 1];
 expected = [1, 2, 3, 4];
 actual = nextPermutation(nums);
 console.assert(strictEquals(expected, actual), '%o', { nums: [4, 3, 2, 1], expected, actual });
