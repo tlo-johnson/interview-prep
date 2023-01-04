@@ -7,7 +7,7 @@ For example, if words = ["ab","cd","ef"], then "abcdef", "abefcd", "cdabef", "cd
 Return the starting indices of all the concatenated substrings in s. You can return the answer in any order.
 */
 
-import { equals } from './utils/array.js';
+import { areEquivalent } from './utils/array.js';
 
 const findSubstring = (str, words) => {
   const indexes = new Set();
@@ -50,28 +50,28 @@ let str, words, expected, actual;
 // words = ["ab", "cd", "ef"];
 // expected = [0, 7, 14, 21, 28, 35, 42, 49];
 // actual = findSubstring(str, words);
-// console.assert(equals(expected, actual), '%o', { str, words, expected, actual });
+// console.assert(areEquivalent(expected, actual), '%o', { str, words, expected, actual });
 //
 // str = "aaa";
 // words = ["a", "a"];
 // expected = [0, 1];
 // actual = findSubstring(str, words);
-// console.assert(equals(expected, actual), '%o', { str, words, expected, actual });
+// console.assert(areEquivalent(expected, actual), '%o', { str, words, expected, actual });
 //
 // str = "pjzkrkevzztxductzzxmxsvwjkxpvukmfjywwetvfnujhweiybwvvsrfequzkhossmootkmyxgjgfordrpapjuunmqnxxdrqrfgkrsjqbszgiqlcfnrpjlcwdrvbumtotzylshdvccdmsqoadfrpsvnwpizlwszrtyclhgilklydbmfhuywotjmktnwrfvizvnmfvvqfiokkdprznnnjycttprkxpuykhmpchiksyucbmtabiqkisgbhxngmhezrrqvayfsxauampdpxtafniiwfvdufhtwajrbkxtjzqjnfocdhekumttuqwovfjrgulhekcpjszyynadxhnttgmnxkduqmmyhzfnjhducesctufqbumxbamalqudeibljgbspeotkgvddcwgxidaiqcvgwykhbysjzlzfbupkqunuqtraxrlptivshhbihtsigtpipguhbhctcvubnhqipncyxfjebdnjyetnlnvmuxhzsdahkrscewabejifmxombiamxvauuitoltyymsarqcuuoezcbqpdaprxmsrickwpgwpsoplhugbikbkotzrtqkscekkgwjycfnvwfgdzogjzjvpcvixnsqsxacfwndzvrwrycwxrcismdhqapoojegggkocyrdtkzmiekhxoppctytvphjynrhtcvxcobxbcjjivtfjiwmduhzjokkbctweqtigwfhzorjlkpuuliaipbtfldinyetoybvugevwvhhhweejogrghllsouipabfafcxnhukcbtmxzshoyyufjhzadhrelweszbfgwpkzlwxkogyogutscvuhcllphshivnoteztpxsaoaacgxyaztuixhunrowzljqfqrahosheukhahhbiaxqzfmmwcjxountkevsvpbzjnilwpoermxrtlfroqoclexxisrdhvfsindffslyekrzwzqkpeocilatftymodgztjgybtyheqgcpwogdcjlnlesefgvimwbxcbzvaibspdjnrpqtyeilkcspknyylbwndvkffmzuriilxagyerjptbgeqgebiaqnvdubrtxibhvakcyotkfonmseszhczapxdlauexehhaireihxsplgdgmxfvaevrbadbwjbdrkfbbjjkgcztkcbwagtcnrtqryuqixtzhaakjlurnumzyovawrcjiwabuwretmdamfkxrgqgcdgbrdbnugzecbgyxxdqmisaqcyjkqrntxqmdrczxbebemcblftxplafnyoxqimkhcykwamvdsxjezkpgdpvopddptdfbprjustquhlazkjfluxrzopqdstulybnqvyknrchbphcarknnhhovweaqawdyxsqsqahkepluypwrzjegqtdoxfgzdkydeoxvrfhxusrujnmjzqrrlxglcmkiykldbiasnhrjbjekystzilrwkzhontwmehrfsrzfaqrbbxncphbzuuxeteshyrveamjsfiaharkcqxefghgceeixkdgkuboupxnwhnfigpkwnqdvzlydpidcljmflbccarbiegsmweklwngvygbqpescpeichmfidgsjmkvkofvkuehsmkkbocgejoiqcnafvuokelwuqsgkyoekaroptuvekfvmtxtqshcwsztkrzwrpabqrrhnlerxjojemcxel";
 // words = ["dhvf","sind","ffsl","yekr","zwzq","kpeo","cila","tfty","modg","ztjg","ybty","heqg","cpwo","gdcj","lnle","sefg","vimw","bxcb"];
 // expected = [935];
 // actual = findSubstring(str, words);
-// console.assert(equals(expected, actual), '%o', { str, words, expected, actual });
+// console.assert(areEquivalent(expected, actual), '%o', { str, words, expected, actual });
 //
 // str = "wordgoodgoodgoodbestword";
 // words = ["word","good","best","word"]
 // expected = [];
 // actual = findSubstring(str, words);
-// console.assert(equals(expected, actual), '%o', { str, words, expected, actual });
+// console.assert(areEquivalent(expected, actual), '%o', { str, words, expected, actual });
 
 str = "ababaab";
 words = ["ab","ba","ba"];
 expected = [1];
 actual = findSubstring(str, words);
-console.assert(equals(expected, actual), '%o', { str, words, expected, actual });
+console.assert(areEquivalent(expected, actual), '%o', { str, words, expected, actual });

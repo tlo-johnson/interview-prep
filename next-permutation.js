@@ -12,7 +12,7 @@ Given an array of integers nums, find the next permutation of nums.
 The replacement must be in place and use only constant extra memory.
 */
 
-import { strictEquals } from './utils/array.js';
+import { equals } from './utils/array.js';
 
 const nextPermutation = (nums) => {
   const index = firstNonDecreasingElement(nums);
@@ -69,69 +69,69 @@ let nums, expected, actual;
 nums = [1, 2, 3, 4];
 expected = [1, 2, 4, 3];
 actual = nextPermutation(nums);
-console.assert(strictEquals(expected, actual), '%o', { nums: [1, 2, 3, 4], expected, actual });
+console.assert(equals(expected, actual), '%o', { nums: [1, 2, 3, 4], expected, actual });
 
 nums = [1, 2, 4, 3];
 expected = [1, 3, 2, 4];
 actual = nextPermutation(nums);
-console.assert(strictEquals(expected, actual), '%o', { nums: [1, 2, 4, 3], expected, actual });
+console.assert(equals(expected, actual), '%o', { nums: [1, 2, 4, 3], expected, actual });
 
 nums = [1, 3, 2, 4];
 expected = [1, 3, 4, 2];
 actual = nextPermutation(nums);
-console.assert(strictEquals(expected, actual), '%o', { nums: [1, 3, 2, 4], expected, actual });
+console.assert(equals(expected, actual), '%o', { nums: [1, 3, 2, 4], expected, actual });
 
 nums = [1, 3, 4, 2];
 expected = [1, 4, 2, 3];
 actual = nextPermutation(nums);
-console.assert(strictEquals(expected, actual), '%o', { nums: [1, 3, 4, 2], expected, actual });
+console.assert(equals(expected, actual), '%o', { nums: [1, 3, 4, 2], expected, actual });
 
 nums = [1, 4, 2, 3];
 expected = [1, 4, 3, 2];
 actual = nextPermutation(nums);
-console.assert(strictEquals(expected, actual), '%o', { nums: [1, 4, 2, 3], expected, actual });
+console.assert(equals(expected, actual), '%o', { nums: [1, 4, 2, 3], expected, actual });
 
 nums = [1, 4, 3, 2];
 expected = [2, 1, 3, 4];
 actual = nextPermutation(nums);
-console.assert(strictEquals(expected, actual), '%o', { nums: [1, 4, 3, 2], expected, actual });
+console.assert(equals(expected, actual), '%o', { nums: [1, 4, 3, 2], expected, actual });
 
 nums = [2, 1, 3, 4];
 expected = [2, 1, 4, 3];
 actual = nextPermutation(nums);
-console.assert(strictEquals(expected, actual), '%o', { nums: [2, 1, 3, 4], expected, actual });
+console.assert(equals(expected, actual), '%o', { nums: [2, 1, 3, 4], expected, actual });
 
 nums = [4, 3, 2, 1];
 expected = [1, 2, 3, 4];
 actual = nextPermutation(nums);
-console.assert(strictEquals(expected, actual), '%o', { nums: [4, 3, 2, 1], expected, actual });
+console.assert(equals(expected, actual), '%o', { nums: [4, 3, 2, 1], expected, actual });
 
 nums = [1, 2, 2, 3, 3, 4];
 expected = [1, 2, 2, 3, 4, 3];
 actual = nextPermutation(nums);
-console.assert(strictEquals(expected, actual), '%o', { nums: [1, 2, 2, 3, 3, 4], expected, actual });
+console.assert(equals(expected, actual), '%o', { nums: [1, 2, 2, 3, 3, 4], expected, actual });
 
 nums = [1, 2, 4, 3, 3, 2];
 expected = [1, 3, 2, 2, 3, 4];
 actual = nextPermutation(nums);
-console.assert(strictEquals(expected, actual), '%o', { nums: [1, 2, 4, 3, 3, 2], expected, actual });
+console.assert(equals(expected, actual), '%o', { nums: [1, 2, 4, 3, 3, 2], expected, actual });
 
 nums = [2, 2, 2, 2];
 expected = [2, 2, 2, 2];
 actual = nextPermutation(nums);
-console.assert(strictEquals(expected, actual), '%o', { nums: [2, 2, 2, 2], expected, actual });
+console.assert(equals(expected, actual), '%o', { nums: [2, 2, 2, 2], expected, actual });
 
 nums = [2, 2, 3, 3];
 expected = [2, 3, 2, 3];
 actual = nextPermutation(nums);
-console.assert(strictEquals(expected, actual), '%o', { nums: [2, 2, 3, 3], expected, actual });
+console.assert(equals(expected, actual), '%o', { nums: [2, 2, 3, 3], expected, actual });
 
 nums = [4, 4, 4, 3, 3];
 expected = [3, 3, 4, 4, 4];
 actual = nextPermutation(nums);
-console.assert(strictEquals(expected, actual), '%o', { nums: [4, 4, 4, 3, 3], expected, actual });
+console.assert(equals(expected, actual), '%o', { nums: [4, 4, 4, 3, 3], expected, actual });
 
 nums = [1, 3, 2];
 expected = [2, 1, 3];
 actual = nextPermutation(nums);
-console.assert(strictEquals(expected, actual), '%o', { nums: [1, 3, 2], expected, actual });
+console.assert(equals(expected, actual), '%o', { nums: [1, 3, 2], expected, actual });

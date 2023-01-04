@@ -2,7 +2,7 @@
  * Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.
  */
 
-import { equals } from './utils/array.js';
+import { areEquivalent } from './utils/array.js';
 
 const generateParenthesis = numPairs => {
   const result = [];
@@ -25,14 +25,14 @@ let numPairs, actual, expected;
 numPairs = 1;
 actual = generateParenthesis(numPairs);
 expected = ["()"];
-console.assert(equals(expected, actual), '%o', {numPairs, actual, expected});
+console.assert(areEquivalent(expected, actual), '%o', {numPairs, actual, expected});
 
 numPairs = 2;
 actual = generateParenthesis(numPairs);
 expected = ["(())", "()()"];
-console.assert(equals(expected, actual), '%o', {numPairs, actual, expected});
+console.assert(areEquivalent(expected, actual), '%o', {numPairs, actual, expected});
 
 numPairs = 3;
 actual = generateParenthesis(numPairs);
 expected = ["((()))", "(()())", "(())()", "()(())", "()()()"];
-console.assert(equals(expected, actual), '%o', {numPairs, actual, expected});
+console.assert(areEquivalent(expected, actual), '%o', {numPairs, actual, expected});

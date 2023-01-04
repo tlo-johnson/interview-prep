@@ -1,5 +1,5 @@
 // formerly equals
-export const looseEquals = (thisArr, thatArr) =>
+export const areEquivalent = (thisArr, thatArr) =>
   thisArr.length === thatArr.length &&
     thisArr.every(x => thatArr.includes(x));
 
