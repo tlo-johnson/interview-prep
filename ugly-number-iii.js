@@ -38,4 +38,6 @@ const num = 10000000;
 const div1 = 200;
 const div2 = 300;
 const div3 = 500;
+console.time('performance');
 console.log(nthUglyNumber(num, div1, div2, div3));
+console.timeEnd('performance');
