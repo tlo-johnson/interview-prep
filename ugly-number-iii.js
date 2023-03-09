@@ -1,43 +1,40 @@
 // https://leetcode.com/problems/ugly-number-iii/
 
-const nthUglyNumber = (num, div1, div2, div3) => {
-  const smallestDiv = BigInt(Math.min(div1, div2, div3));
-  const biggestDiv = BigInt(Math.max(div1, div2, div3));
-  const middleDiv = BigInt(div1) + BigInt(div2) + BigInt(div3) - smallestDiv - biggestDiv;
+const twoBillion = 2000000000;
 
-  let answer = BigInt(smallestDiv) * BigInt(num);
-  let overCount = (answer / middleDiv) - (answer / (middleDiv * smallestDiv)) +
-    (answer / biggestDiv) - (answer / (biggestDiv * smallestDiv)) - (answer / (biggestDiv * middleDiv));
+const nthUglyNumber = (num, div1, div2, div3, left = 1, right = twoBillion) => {
+  const mid = Math.floor((left + right) / 2);
+  let numUglyNumbers = (mid / div1) + (mid / div2) - (mid / (div1 * div2)) + (mid / div3) - (mid / (div3 * div2)) - (mid / (div3 * div1));
+  if (div2 % div1 === 0 || div1 % div2 === 0)
+    numUglyNumbers--;
+  if (div3 % div1 === 0 || div1 % div3 === 0)
+    numUglyNumbers--;
 
-  if (middleDiv % smallestDiv === 0)
-    overCount--;
-  if (biggestDiv % smallestDiv === 0)
-    overCount--;
+  console.log({mid, numUglyNumbers});
+  if (Math.floor(numUglyNumbers) === num)
+    return smallerFactor(mid, div1, div2, div3);
 
-  while (overCount-- > 0)
-    answer = [
-      smallerFactor(answer, smallestDiv),
-      smallerFactor(answer, middleDiv),
-      smallerFactor(answer, biggestDiv)
-    ].reduce(maxBigInt);
-
-  return answer;
+  return numUglyNumbers < num ?
+    nthUglyNumber(num, div1, div2, div3, mid + 1, right) :
+    nthUglyNumber(num, div1, div2, div3, left, mid - 1);
 }
 
-const smallerFactor = (num, divisor) => {
-  let dividend = num / divisor;
-  let remainder = num % divisor;
-  if (remainder === 0n)
-    dividend -= 1n;
-  return divisor * dividend;
+const smallerFactor = (num, div1, div2, div3) => {
+  while (num % div1 !== 0 && num % div2 !== 0 && num % div3 !== 0)
+    num--;
+  return num;
 }
 
-const maxBigInt = (answer, current) => answer > current ? answer : current;
-
-const num = 10000000;
-const div1 = 200;
-const div2 = 300;
-const div3 = 500;
+let num = 10000000;
+let div1 = 200;
+let div2 = 300;
+let div3 = 500;
 console.time('performance');
-console.log(nthUglyNumber(num, div1, div2, div3));
+// console.log(nthUglyNumber(num, div1, div2, div3));
 console.timeEnd('performance');
+
+num = 3;
+div1 = 2;
+div2 = 3;
+div3 = 5;
+console.log(nthUglyNumber(num, div1, div2, div3));
