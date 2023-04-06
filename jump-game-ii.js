@@ -23,25 +23,24 @@ const jump = (nums) => {
   return allJumps[0] - 1; // subtract the extra jump from allJumps initialization
 }
 
-/*
- * optimization: because you're always guaranteed a solution (problem constraints) this
- * question simplifies to finding the minimum number of jumps to get to the last element
- * (i.e. the hash table keeping track of whether one can get to an index is unnecessary
- *
- * var jump = function(nums) {
- *  let jumps = 0;
- *  let curEnd = 0;
- *  let curFarthest = 0;
- *  for (let i = 0; i < nums.length; i++) {
- *    if (i > curEnd) {
- *      jumps++;
- *      curEnd = curFarthest;
- *    }
- *    curFarthest = Math.max(curFarthest, i + nums[i]);
- *  }
- *  return jumps;
- * };
- */
+// April 4, 2023
+const jump = nums => {
+  let minJumps = { 0: 0 };
+  for (let index = 0; index < nums.length; index++) {
+    const endIndex = nums[index] + index;
+    if (minJumps[endIndex] !== undefined) {
+      continue;
+    }
+
+    for (let count = index + 1; count <= endIndex; count++) {
+      if (minJumps[count] === undefined) {
+        minJumps[count] = minJumps[index] + 1;
+      }
+    }
+  }
+
+  return minJumps[nums.length - 1];
+}
 
 let nums, expected, actual;
 

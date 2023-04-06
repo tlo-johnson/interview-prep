@@ -51,8 +51,18 @@ const maxFromMid = (leftArray, rightArray) => {
     leftMaxSum + rightMaxSum : Math.max(leftMaxSum, rightMaxSum);
 }
 
-console.log({ expected: 6, actual: maxSubArray_divideConquer([-2,1,-3,4,-1,2,1,-5,4]) });
-console.log({ expected: 1, actual: maxSubArray_divideConquer([-2, 1]) });
-console.log({ expected: 1, actual: maxSubArray_divideConquer([1]) });
-console.log({ expected: -1, actual: maxSubArray_divideConquer([-1]) });
-console.log({ expected: 23, actual: maxSubArray_divideConquer([5,4,-1,7,8]) });
+// April 4, 2023
+const maxSubArray = nums => {
+  let largestSum = nums[0];
+  for (let index = 1; index < nums.length; index++) {
+    nums[index] = Math.max(nums[index - 1] + nums[index], nums[index]);
+    largestSum = Math.max(nums[index], largestSum);
+  }
+  return largestSum;
+}
+
+console.log({ expected: 6, actual: maxSubArray([-2,1,-3,4,-1,2,1,-5,4]) });
+console.log({ expected: 1, actual: maxSubArray([-2, 1]) });
+console.log({ expected: 1, actual: maxSubArray([1]) });
+console.log({ expected: -1, actual: maxSubArray([-1]) });
+console.log({ expected: 23, actual: maxSubArray([5,4,-1,7,8]) });
