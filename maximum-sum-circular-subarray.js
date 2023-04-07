@@ -1,38 +1,31 @@
 // https://leetcode.com/problems/maximum-sum-circular-subarray/?envType=study-plan&id=dynamic-programming-i
 
-const maxSubarraySumCircular = nums => {
-  const firstNegativeIndex = findFirstNegativeValue(nums);
+const maxSubarraySumCircular = nums => Math.max(maxCircularSum(nums), maxNonCircularSum(nums));
 
-  return (firstNegativeIndex === -1)  ?
-    nums.reduce((acc, curr) => acc + curr) :
-    maxSubArray(nums, firstNegativeIndex);
-}
-
-const findFirstNegativeValue = nums => {
-  for (let index = 0; index < nums.length; index++) {
-    if (nums[index] < 0) {
-      return index;
-    }
+const maxCircularSum = (nums) => {
+  let suffixSum = nums[nums.length - 1];
+  const rightMax = [];
+  rightMax[nums.length - 1] = nums[nums.length - 1];
+  for (let index = nums.length - 2; index >= 0; index--) {
+    suffixSum += nums[index];
+    rightMax[index] = Math.max(suffixSum, rightMax[index + 1]);
   }
 
-  return -1;
+  let maxSum = nums[0], prefixSum = 0;
+  for (let index = 0; index < nums.length - 2; index++) {
+    prefixSum += nums[index];
+    maxSum = Math.max(maxSum, prefixSum + rightMax[index + 1]);
+  }
+
+  return maxSum;
 }
 
-const maxSubArray = (nums, firstNegativeIndex) => {
-  let previousMaxSum = nums[firstNegativeIndex];
-  let maxSum = previousMaxSum;
-
-  let index = firstNegativeIndex + 1;
-  while (index !== firstNegativeIndex) {
-    if (index === nums.length) {
-      index = 0;
-      continue;
-    }
-
-    const currentMaxSum = Math.max(previousMaxSum + nums[index], nums[index]);
-    maxSum = Math.max(maxSum, currentMaxSum);
-    previousMaxSum = currentMaxSum;
-    index++;
+const maxNonCircularSum = (nums) => {
+  const sums = [nums[0]];
+  let maxSum = nums[0];
+  for (let index = 1; index < nums.length; index++) {
+    sums[index] = Math.max(sums[index - 1] + nums[index], nums[index]);
+    maxSum = Math.max(maxSum, sums[index]);
   }
 
   return maxSum;
